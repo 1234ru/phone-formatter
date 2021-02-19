@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/1234ru/phone-formatter/docs/live.gif" width="400" align="center">
+<img src="https://raw.githubusercontent.com/1234ru/phone-formatter/master/docs/live.gif" width="400" align="center">
 
 Автоматическое форматирование номеров телефонов при вводе их в поля форм значительно 
 облегчает визуальный контроль за правильностью набора. 
@@ -40,7 +40,7 @@ document.querySelectorAll( 'input[type=tel]' ).forEach( function( input ) {
 * в пустое поле при получении фокуса сразу подставляется начальный фрагмент первого из 
   указанных шаблонов; если пользователь в итоге ничего не ввёл, при потере фокуса поле 
   очищается  
-<img src="https://raw.githubusercontent.com/1234ru/phone-formatter/docs/blank-input.gif" width="400" align="center">
+<img src="https://raw.githubusercontent.com/1234ru/phone-formatter/master/docs/blank-input.gif" width="250" align="center">
 
 * если вводу не соответствует ни один шаблон, форматирование проводиться не будет
 
