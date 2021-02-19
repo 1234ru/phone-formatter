@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Phone autoformatting demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="../lib.js"></script>
+    <style>
+        html {
+            height: 100%;
+        }
+        body {
+            min-height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            /*align-items: center;*/
+            align-content: center;
+            font-size: 18px;
+            margin: 0;
+            font-family: Consolas, monospace;
+            background-color: #b9e3fd;
+        }
+
+        @media (min-width: 640px) {
+            body > div {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 1em;
+            }
+
+            body > div > div {
+                flex-basis: 50%;
+            }
+
+            body > div > div:first-child {
+                text-align: right;
+            }
+        }
+        @media (max-width: 639px) {
+            body > div {
+                width: 100%;
+                margin-bottom: 1em;
+            }
+            body > div > div {
+                text-align: center;
+            }
+            .country {
+                display: block;
+            }
+        }
+
+
+        input {
+            font: inherit;
+            border: 2px solid #A0A0A0;
+            padding: .25em;
+            box-sizing: border-box;
+            width: 12em;
+        }
+        input:focus {
+            border-color: #000;
+        }
+
+        code {
+            display: inline-block;
+            padding: .35em;
+            margin: 0 1em;
+            background-color: #92d6ff;
+            border-radius: .2em;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div><input type="tel" value="74950000000"></div>
+        <div>
+            <code>+7 (NNN) NNN-NN-NN</code>
+            <span class="country">(Россия/Казахстан)</span>
+        </div>
+    </div>
+    <div>
+        <div><input type="tel" value="375170000000"></div>
+        <div>
+            <code>+375 NN NNN-NN-NN</code>
+            <span class="country">(Беларусь)</span>
+        </div>
+    </div>
+    <div>
+        <div><input type="tel" value="380440000000"></div>
+        <div>
+            <code>+38 (0NN) NNN-NN-NN</code>
+            <span class="country">(Украина)</span>
+        </div>
+    </div>
+    <div>
+        <div><input type="tel" value="+19170000000"></div>
+        <div>
+            <code>+1 (NNN) NNN-NNNN</code>
+            <span class="country">(США)</span>
+        </div>
+    </div>
+    <div>
+        <div><input type="tel" placeholder="Попробуйте сами"></div>
+        <div></div>
+    </div>
+
+    <!--<input type="tel">-->
+
+    <script>
+        var numberPatterns = [
+            '+7 (NNN) NNN-NN-NN',  // Россия и Казахстан
+            '+375 NN NNN-NN-NN',   // Беларусь
+            '+38 (0NN) NNN-NN-NN', // Украина
+            '+1 (NNN) NNN-NNNN',   // США
+        ];
+        document.querySelectorAll( 'input[type=tel]' ).forEach( function( input ) {
+            new Freedom.PhoneFormatter( numberPatterns ).attachToInput( input );
+        } );
+    </script>
+</body>
+</html>
