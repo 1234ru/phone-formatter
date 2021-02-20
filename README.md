@@ -31,6 +31,8 @@ document.querySelectorAll( 'input[type=tel]' ).forEach( function( input ) {
     new Freedom.PhoneFormatter( numberPatterns ).attachToInput( input );
 } );
 ```
+(Freedom - веб-фреймворк, в рамках которого ведется разработка, отсюда и название пространства имён.)
+
 
 ## Особенности
 
@@ -46,5 +48,6 @@ document.querySelectorAll( 'input[type=tel]' ).forEach( function( input ) {
 
 * в любом случае ввод посторонних символов (букв и пр.) подавляется
 
+* при вводе цифр не с конца сохраняет позицию курсора (в отличие от многих других аналогичных решений, где при любом вводе курсор прыгает в конец)
 
 Работающий пример находится в файле [docs/demo.html](docs/demo.html).

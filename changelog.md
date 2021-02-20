@@ -1,0 +1,1 @@
+* 1.0.1: handling cursor's position.

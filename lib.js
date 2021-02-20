@@ -1,5 +1,5 @@
 /**
- * @version 1.0
+ * @version 1.0.1
  */
 
 var Freedom = Freedom || {};
@@ -27,7 +27,7 @@ Freedom.PhoneFormatter.prototype.attachToInput = function ( input ) {
 
 Freedom.PhoneFormatter.prototype.createHandlersInstance = function( object ) {
     return {
-        keyup: function () {
+        input: function (event) {
             object.refreshInputValue( this );
         },
         focus: function () {
@@ -67,13 +67,13 @@ Freedom.PhoneFormatter.prototype.validatePatterns = function( allPatterns )   {
 }
 
 /**
+ * Picks fragment preceding first number placholder.
  * @private
  * @return string
  */
 Freedom.PhoneFormatter.prototype.pickEmptyFieldStart = function() {
     var defaultPattern = this.patterns[ 0 ];
     if ( defaultPattern )   {
-        // фрагмент до первой "N"
         var matches = /^[^N]+/g.exec( defaultPattern );
         return matches[ 0 ] || '';
     } else {
@@ -93,16 +93,25 @@ Freedom.PhoneFormatter.prototype.refreshInputValue = function( input ) {
         }
     }
     if ( ! newValue ) {
-        // Если не нашлось подходящего шаблона и телефон
-        // не был отформатирован - хотя бы удаляем
-        // недопустимые символы.
+        // If no pattern matched, removing invalid characters anyway.
         newValue = this.removeInvalidCharacters( currentValue );
     }
-    // При установке значения поля курсор сдвигается в конец.
-    // Если полученное значение идентично текущему,
-    // двигать курсор ни к чему, поэтому добавляем проверку.
-    if ( currentValue !== newValue )   {
-        input.value = newValue;
+    this.setValueAndHandleCursor( input, newValue );
+}
+
+/**
+ * Setting input's value and keeping cursor where it was
+ * if it's not at the end.
+ * @param {HTMLInputElement} input
+ * @param {string} newValue
+ */
+Freedom.PhoneFormatter.prototype.setValueAndHandleCursor = function ( input, newValue ) {
+    // https://www.vishalon.net/blog/javascript-getting-and-setting-caret-position-in-textarea
+    var caretPosition = input.selectionEnd;
+    var keep = ( caretPosition < input.value.length );
+    input.value = newValue;
+    if (keep) {
+        input.setSelectionRange(caretPosition, caretPosition);
     }
 }
 
@@ -115,30 +124,6 @@ Freedom.PhoneFormatter.prototype.removeInvalidCharacters = function( value )   {
     return value.replace( /[^+\d\s()\-]/g, '' );
 }
 
-// Шаблоны номеров можно хранить в виде строк.
-// Преобразование в объекты и разбор не требуются.
-// /**
-//  * @typedef {Object} phoneNumberPattern
-//  * @property {string} leftmostNumbers
-//  * @property {string} body
-//  */
-//
-// /**
-//  * @param patternStrings
-//  * @return phoneNumberPattern[]
-//  */
-// Freedom.PhoneAutoformat.prototype.preparePatterns = function (patternStrings )   {
-//     var i, patternString, patternObjects = [];
-//     for (i = 0; i < patternStrings.length; i++) {
-//         patternString = patternStrings[ i ];
-//         patternObjects.push( {
-//             leftmostNumbers: patternString.replace( /\D/g, ''),
-//             body: patternString
-//         });
-//     }
-//     return patternObjects;
-// }
-
 /**
  * @param {string} rawPhone
  * @param {string} pattern
@@ -149,13 +134,10 @@ Freedom.PhoneFormatter.prototype.formatPhoneNumber = function(
     pattern,
     returnOriginalWhenNoMatch
 ) {
-    // Разбираем шаблон по одному символу.
-    // Если символ - цифра, сдвигаем "курсор" на одну позицию вправо
-    // в исследуемой строке и вставляем эту цифру в результат.
-    // В противном случае вставляем в результат символ из шаблона.
+    // Parsing a template character by character.
 
-    // Если выполнение происходит вне контекста объекта -
-    // проверяем шаблон.
+    // When running outside of object instance,
+    // check the template first.
     if ( typeof this.patterns === 'undefined' ) {
         if ( ! this.isPatternStringValid( pattern ) ) {
             this.throwInvalidPatternError( pattern );
@@ -179,25 +161,24 @@ Freedom.PhoneFormatter.prototype.formatPhoneNumber = function(
         if ( patternChar == phoneChar ) {
             posAtPhone++;
             if ( phoneChar !== 'N' ) {
-                // N обрабатываем отдельно, т.к. она входит в шаблон,
-                // но частью конечного форматирования являться не должна
+                // "N" may come from user input and should not be allowed
                 formattedPhone += phoneChar;
                 posAtPattern++;
             }
         } else if ( isNaN( parseInt( phoneChar ) ) ) {
-            // это вместо удаления всех нецифровых символов
+            // Disallow non-numeric characters which don't match the pattern
+            // Is character a digit: https://stackoverflow.com/a/58102052/589600
             posAtPhone++;
         } else if ( patternChar == 'N' ) {
             formattedPhone += phoneChar;
             posAtPattern++;
             posAtPhone++;
         } else if ( isNaN( parseInt( patternChar ) ) ) {
-            // Является ли символ цифрой: https://stackoverflow.com/a/58102052/589600
             formattedPhone += patternChar;
             posAtPattern++;
         } else {
-            // Нашли несовпадающие цифры в начальной части -
-            // паттерн не совпадает, прекращаем выполнение.
+            // Ran into non-matching digits at the start -
+            // pattern doesn't match, terminating execution.
             // console.log( "Discarding formatted phone");
             formattedPhone = '';
             break;
