@@ -1,12 +1,13 @@
 /**
- * @version 1.0.1
+ * @version 1.1.0
  */
 
 var Freedom = Freedom || {};
 
 /**
- * @param {string[]} patterns
  * @constructor
+ * @link https://github.com/1234ru/phone-formatter
+ * @param {string[]} patterns
  */
 Freedom.PhoneFormatter = function ( patterns ) {
     this.patterns = this.validatePatterns( patterns );
@@ -27,7 +28,7 @@ Freedom.PhoneFormatter.prototype.attachToInput = function ( input ) {
 
 Freedom.PhoneFormatter.prototype.createHandlersInstance = function( object ) {
     return {
-        input: function (event) {
+        input: function () {
             object.refreshInputValue( this );
         },
         focus: function () {
@@ -202,4 +203,38 @@ Freedom.PhoneFormatter.prototype.throwInvalidPatternError = function( patternStr
     var msg = 'Invalid phone pattern "%s". '
         + 'Only digits, spaces, "+", "-", "(", ")" and "N" are allowed' ;
     console.error( msg, patternString );
+}
+
+/**
+ * @param {string} selector
+ */
+Freedom.PhoneFormatter.prototype.attachToSelector = function( selector ) {
+    if ( ! Freedom.SelectorWatcher ) {
+        const msg = "You need Freedom.SelectorWatcher library.\n"
+            + "Get it at https://github.com/1234ru/selector-watcher/blob/master/lib.js"
+        console.error( msg );
+    } else {
+        try {
+            var obj = this;
+            this.watcher = new Freedom.SelectorWatcher();
+            this.watcher.attach( {
+                selector: selector,
+                callback: function ( input ) {
+                    obj.refreshInputValue( input );
+                },
+                handlersByType: this.createHandlersInstance( this )
+            } );
+        }
+        catch ( e ) {
+            console.error( e );
+        }
+    }
+
+}
+
+Freedom.PhoneFormatter.prototype.detachFromSelector = function() {
+    if ( this.watcher ) {
+        this.watcher.detach();
+        delete this.watcher;
+    }
 }

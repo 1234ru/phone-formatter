@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PhoneFormatter.attachToSelector() demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles.css">
+    <script src="../lib.js"></script>
+    <script src="../../selector-watcher/lib.js"></script>
+    <script src="https://github.com/1234ru/selector-watcher/raw/master/lib.js"></script>
+    <!-- replace with local copy to work -->
+</head>
+<body>
+    <script>
+        const numberPatterns = [ '+7 (NNN) NNN-NN-NN' ];
+        const formatterObject = new Freedom.PhoneFormatter( numberPatterns );
+        formatterObject.attachToSelector( 'input[type=tel]' );
+
+        const div = document.createElement( 'div' );
+
+        const input = document.createElement( 'input' );
+        input.type = 'tel';
+        input.value = '74950000000';
+        div.appendChild( input );
+
+        const button = document.createElement( 'button' );
+        button.innerText = 'Detach from Selector';
+        button.addEventListener( 'click', function () {
+            formatterObject.detachFromSelector();
+        } );
+        div.appendChild( button );
+
+        document.body.appendChild( div );
+
+    </script>
+</body>
+</html>
