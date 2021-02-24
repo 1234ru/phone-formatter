@@ -21,7 +21,7 @@ const numberPatterns = [
   '+7 (NNN) NNN-NN-NN',  // Россия и Казахстан
   '+375 NN NNN-NN-NN',   // Беларусь
   '+38 (0NN) NNN-NN-NN', // Украина
-  '+1 (NNN) NNN-NNNN',   // США
+  '+1 (NNN) NNN-NNNN',   // США и Канада
 ];
 ```
 
