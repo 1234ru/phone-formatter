@@ -9,35 +9,35 @@
 </head>
 <body>
     <div>
-        <div><input type="tel" value="74950000000"></div>
+        <div><input type="tel" value="12120000000"></div>
         <div>
             <code>+7 (NNN) NNN-NN-NN</code>
-            <span class="country">(Россия/Казахстан)</span>
+            <span class="country">(USA/Canada)</span>
         </div>
     </div>
     <div>
-        <div><input type="tel" value="375170000000"></div>
+        <div><input type="tel" value="442000000000"></div>
         <div>
-            <code>+375 NN NNN-NN-NN</code>
-            <span class="country">(Беларусь)</span>
+            <code>+44 NN NNNN NNNN</code>
+            <span class="country">(United Kingdom)</span>
+        </div>
+    </div>
+    <div>
+        <div><input type="tel" value="74950000000"></div>
+        <div>
+            <code>+7 (NNN) NNN-NN-NN</code>
+            <span class="country">(Russia)</span>
         </div>
     </div>
     <div>
         <div><input type="tel" value="380440000000"></div>
         <div>
             <code>+38 (0NN) NNN-NN-NN</code>
-            <span class="country">(Украина)</span>
+            <span class="country">(Ukraine)</span>
         </div>
     </div>
     <div>
-        <div><input type="tel" value="+12120000000"></div>
-        <div>
-            <code>+1 (NNN) NNN-NNNN</code>
-            <span class="country">(США)</span>
-        </div>
-    </div>
-    <div>
-        <div><input type="tel" placeholder="Попробуйте сами"></div>
+        <div><input type="tel" placeholder="Try it"></div>
         <div></div>
     </div>
 
@@ -45,10 +45,10 @@
 
     <script>
         const numberPatterns = [
-            '+7 (NNN) NNN-NN-NN',  // Россия и Казахстан
-            '+375 NN NNN-NN-NN',   // Беларусь
-            '+38 (0NN) NNN-NN-NN', // Украина
-            '+1 (NNN) NNN-NNNN',   // США
+            '+1 (NNN) NNN-NNNN',  // USA/Canada
+            '+44 NN NNNN NNNN',    // UK
+            '+7 (NNN) NNN-NN-NN',   // Russia
+            '+38 (0NN) NNN-NN-NN', // Ukraine
         ];
         document.querySelectorAll( 'input[type=tel]' ).forEach( function( input ) {
             const formatterObject = new Freedom.PhoneFormatter( numberPatterns );
