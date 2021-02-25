@@ -1,5 +1,5 @@
 /**
- * @version 1.1.0
+ * @version 1.1.1
  */
 
 var Freedom = Freedom || {};
@@ -31,12 +31,12 @@ Freedom.PhoneFormatter.prototype.createHandlersInstance = function( object ) {
         input: function () {
             object.refreshInputValue( this );
         },
-        focus: function () {
+        focusin: function () {
             if ( ! this.value.trim() ) {
                 this.value = object.defaultEmptyFieldStart;
             }
         },
-        blur: function () {
+        focusout: function () {
             if ( this.value.trim() === object.defaultEmptyFieldStart ) {
                 this.value = '';
             }
