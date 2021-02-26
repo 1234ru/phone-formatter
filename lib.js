@@ -159,7 +159,7 @@ Freedom.PhoneFormatter.prototype.formatPhoneNumber = function(
         // console.log( "=======");
         // console.log( "Pattern char:", patternChar );
         // console.log( "Phone char: ", phoneChar );
-        if ( patternChar == phoneChar ) {
+        if ( patternChar === phoneChar ) {
             posAtPhone++;
             if ( phoneChar !== 'N' ) {
                 // "N" may come from user input and should not be allowed
@@ -170,7 +170,7 @@ Freedom.PhoneFormatter.prototype.formatPhoneNumber = function(
             // Disallow non-numeric characters which don't match the pattern
             // Is character a digit: https://stackoverflow.com/a/58102052/589600
             posAtPhone++;
-        } else if ( patternChar == 'N' ) {
+        } else if ( patternChar === 'N' ) {
             formattedPhone += phoneChar;
             posAtPattern++;
             posAtPhone++;
