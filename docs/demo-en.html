@@ -55,5 +55,30 @@
             formatterObject.attachToInput( input );
         } );
     </script>
+
+    <script>
+        // Formatting phone strings:
+        const obj = new Freedom.PhoneFormatter( numberPatterns );
+        const knownPhone = '12125555555';
+        const unknownPhone = '234abc';
+        console.log( "Known phone: " + knownPhone + " -> " + obj.format( knownPhone ) );
+        console.log( "Uknknown phone remains intact: "
+            + unknownPhone + " -> " + obj.format( unknownPhone ) );
+        console.log( "=======" );
+        try {
+            obj.format( unknownPhone, true );
+        } catch ( e ) {
+            console.log( "Unknown phone with second argument = true throws an exception:" );
+            console.log( e );
+        }
+
+        // Length check:
+        const phonePart = knownPhone.substr(0, 7);
+        console.log( "Without length check: " + phonePart + " -> "
+            + obj.format( phonePart ) );
+        console.log( "With length check: " + phonePart + " -> "
+            + obj.format( phonePart, false, true ) );
+    </script>
+
 </body>
 </html>

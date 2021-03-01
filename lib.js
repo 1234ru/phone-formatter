@@ -88,16 +88,52 @@ Freedom.PhoneFormatter.prototype.pickEmptyFieldStart = function() {
 Freedom.PhoneFormatter.prototype.refreshInputValue = function( input ) {
     var currentValue = input.value;
     var newValue;
-    for ( var i = 0; i < this.patterns.length; i++ ) {
-        if ( newValue = this.formatPhoneNumber( currentValue, this.patterns[ i ] ) ) {
-            break;
-        }
-    }
-    if ( ! newValue ) {
+    try {
+        newValue = this.format( currentValue, true );
+    } catch ( e ) {
         // If no pattern matched, removing invalid characters anyway.
         newValue = this.removeInvalidCharacters( currentValue );
     }
     this.setValueAndHandleCursor( input, newValue );
+}
+
+/**
+ * @param {string} rawPhone
+ * @param {boolean} throwExceptionWhenNoMatch=false
+ * @param {boolean} lengthStrictCheck=false
+ * @return {string}
+ */
+Freedom.PhoneFormatter.prototype.format = function (
+    rawPhone,
+    throwExceptionWhenNoMatch,
+    lengthStrictCheck
+) {
+    var formattedPhone;
+    for ( var i = 0; i < this.patterns.length; i++ ) {
+        try {
+            formattedPhone = this.applyPattern(
+                rawPhone,
+                this.patterns[ i ],
+                true,
+                lengthStrictCheck
+            );
+        } catch ( e ) { // no match
+            formattedPhone = '';
+        }
+        if ( formattedPhone ) { // match!
+            break;
+        }
+    }
+    if ( formattedPhone ) {
+        return formattedPhone;
+    } else {
+        if ( throwExceptionWhenNoMatch ) {
+            throw 'Phone "' + rawPhone + '" didn\'t match any of the patterns:'
+                + "\n" + this.patterns.join(",\n");
+        } else {
+            return rawPhone;
+        }
+    }
 }
 
 /**
@@ -111,8 +147,8 @@ Freedom.PhoneFormatter.prototype.setValueAndHandleCursor = function ( input, new
     var caretPosition = input.selectionEnd;
     var keep = ( caretPosition < input.value.length );
     input.value = newValue;
-    if (keep) {
-        input.setSelectionRange(caretPosition, caretPosition);
+    if ( keep ) {
+        input.setSelectionRange( caretPosition, caretPosition );
     }
 }
 
@@ -126,25 +162,19 @@ Freedom.PhoneFormatter.prototype.removeInvalidCharacters = function( value )   {
 }
 
 /**
+ * @private
  * @param {string} rawPhone
  * @param {string} pattern
- * @param {boolean} [returnOriginalWhenNoMatch=false]
+ * @param {boolean} [throwExceptionWhenNoMatch=false]
+ * @param {boolean} [lengthStrictCheck=false]
  */
-Freedom.PhoneFormatter.prototype.formatPhoneNumber = function(
+Freedom.PhoneFormatter.prototype.applyPattern = function(
     rawPhone,
     pattern,
-    returnOriginalWhenNoMatch
+    throwExceptionWhenNoMatch,
+    lengthStrictCheck
 ) {
     // Parsing a template character by character.
-
-    // When running outside of object instance,
-    // check the template first.
-    if ( typeof this.patterns === 'undefined' ) {
-        if ( ! this.isPatternStringValid( pattern ) ) {
-            this.throwInvalidPatternError( pattern );
-        }
-    }
-
     var posAtPattern = 0;
     var posAtPhone = 0;
     var patternChar;
@@ -187,9 +217,25 @@ Freedom.PhoneFormatter.prototype.formatPhoneNumber = function(
         // console.log( "Formatted phone: ", formattedPhone );
     }
 
+    if ( formattedPhone && lengthStrictCheck ) {
+        if ( posAtPattern != pattern.length ) {
+            formattedPhone = '';
+        }
+    }
+
+    if ( formattedPhone ) {
+        return formattedPhone;
+    } else {
+        if ( throwExceptionWhenNoMatch ) {
+            throw 'Phone "' + rawPhone + '" didn\'t match pattern "' + pattern + '".';
+        } else {
+            return rawPhone;
+        }
+    }
+
     return formattedPhone
         ? formattedPhone
-        : ( returnOriginalWhenNoMatch ? rawPhone : formattedPhone );
+        : ( throwExceptionWhenNoMatch ? rawPhone : formattedPhone );
 }
 
 /** @private */

@@ -82,3 +82,72 @@ This feature requires
 from 
 [Freedom.SelectorWatcher](https://github.com/1234ru/selector-watcher)
 package to be included.
+
+
+## Formatting of strings
+
+You can pass phone number as a string and obtain formatted string in return:
+
+```javascript
+console.log ( formatterObject.format( '74950000000') ); // +7 (495) 000-00-00
+```
+
+If the phone doesn't match any pattern, it will remain intact, invalid characters will 
+not be removed:
+
+```javascript
+console.log ( formatterObject.format( '200000abc') ); // 200000abc
+```
+
+Passing `true` as second argument makes the method to throw an exception: 
+
+```javascript
+try {
+  obj.format( '234abc', true );
+} catch ( e ) {
+  console.log( e );
+  // Phone "200000abc" didn't match any of the patterns:
+  // '+1 (NNN) NNN-NNNN',
+  // '+44 NN NNNN NNNN',
+  // '+7 (NNN) NNN-NN-NN',
+  // '+38 (0NN) NNN-NN-NN',
+}
+```
+
+`true` as third argument turns on strict length check: 
+
+```javascript
+console.log ( formatterObject.format( '1212000' ) ); // +1 (212)-000 - phone is formatted
+console.log ( formatterObject.format( '1212000', undefined, true ) ); // 1212000 - phone isn't formatted
+```
+
+
+## PHP implementation
+
+A [PHP class](class.php) has public method `format()`, which works the same way:
+
+```php
+$obj = new \Freedom\PhoneFormatter([
+    '+1 (NNN) NNN-NNNN',
+    '+44 NN NNNN NNNN',
+    '+7 (NNN) NNN-NN-NN',
+    '+38 (0NN) NNN-NN-NN',
+]);
+echo $obj->format('12120000000'); // +1 (212) 000-00-00
+echo $obj->format('1212000', null, true); // 1212000
+```
+
+`validate()` method serves for phone validity check (using matching with strict length check):
+
+```php
+if (!$obj->validate($_POST['phone']) {
+    $error = "Invalid phone number: " . htmlspecialchars($_POST['phone']);
+}
+```
+
+Additionally there is `keepDigitsOnly()` method, which removes any non-digital 
+characters from the string:
+
+```php
+echo $obj::keepDigitsOnly('+1 (212) 000-00-00'); // 12120000000
+```

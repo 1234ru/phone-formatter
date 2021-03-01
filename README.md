@@ -79,3 +79,75 @@ formatterObject.attachToSelector( 'input[type=tel]' );
 [lib.js](https://github.com/1234ru/selector-watcher/blob/master/lib.js)
 из пакета 
 [Freedom.SelectorWatcher](https://github.com/1234ru/selector-watcher).
+
+
+## Форматирование строк
+
+Можно просто передать объекту номер телефона в виде строки и получить обратно строку, 
+содержащую отформатированный номер:
+
+```javascript
+console.log ( formatterObject.format( '74950000000') ); // +7 (495) 000-00-00
+```
+
+Если номер не соответствует ни одному из шаблонов, он будет возвращен в неизменном виде, 
+посторонние символы не будут удалены:
+
+```javascript
+console.log ( formatterObject.format( '200000abc') ); // 200000abc
+```
+
+Если передать методу `true` в качестве второго аргумента, в случае несовпадения он выбросит 
+исключение:
+
+```javascript
+try {
+  obj.format( '234abc', true );
+} catch ( e ) {
+  console.log( e );
+  // Phone "200000abc" didn't match any of the patterns:
+  // +7 (NNN) NNN-NN-NN,
+  // +375 NN NNN-NN-NN,
+  // +38 (0NN) NNN-NN-NN,
+  // +1 (NNN) NNN-NNNN
+}
+```
+
+`true` в качестве третьего аргумента включает строгую проверку на длину:
+
+```javascript
+console.log ( formatterObject.format( '7495000' ) ); // +7 (495)-000 - номер отформатирован
+console.log ( formatterObject.format( '7495000', undefined, true ) ); // 7495000 - номер не отформатирован
+```
+
+
+## Аналог на PHP
+
+[Реализация класса на PHP](class.php) имеет публичный метод 
+`format()`, который работает точно так же:
+
+```php
+$obj = new \Freedom\PhoneFormatter([
+    '+7 (NNN) NNN-NN-NN',
+    '+375 NN NNN-NN-NN',
+    '+38 (0NN) NNN-NN-NN',
+    '+1 (NNN) NNN-NNNN',
+]);
+echo $obj->format('74950000000'); // +7 (495) 000-00-00
+echo $obj->format('7495000', null, true); // 7495000
+```
+
+Метод `validate()` предназначен для контроля корректности ввода телефона 
+(для этого выполняется сопоставление шаблонам со строгой проверкой длины):
+
+```php
+if (!$obj->validate($_POST['phone']) {
+    $error = "Некорректный номер телефона: " . htmlspecialchars($_POST['phone']);
+}
+```
+
+Имеется также метод `keepDigitsOnly()`, который удаляет из строки все символы, кроме цифр: 
+
+```php
+echo $obj::keepDigitsOnly('+7 (495) 000-00-00'); // 74950000000
+```
