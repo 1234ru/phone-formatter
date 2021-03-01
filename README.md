@@ -94,7 +94,7 @@ console.log ( formatterObject.format( '74950000000') ); // +7 (495) 000-00-00
 посторонние символы не будут удалены:
 
 ```javascript
-console.log ( formatterObject.format( '200000abc') ); // 200000abc
+console.log ( formatterObject.format( '234abc') ); // 234abc
 ```
 
 Если передать методу `true` в качестве второго аргумента, в случае несовпадения он выбросит 
@@ -105,7 +105,7 @@ try {
   obj.format( '234abc', true );
 } catch ( e ) {
   console.log( e );
-  // Phone "200000abc" didn't match any of the patterns:
+  // Phone "234abc" didn't match any of the patterns:
   // +7 (NNN) NNN-NN-NN,
   // +375 NN NNN-NN-NN,
   // +38 (0NN) NNN-NN-NN,

@@ -96,7 +96,7 @@ If the phone doesn't match any pattern, it will remain intact, invalid character
 not be removed:
 
 ```javascript
-console.log ( formatterObject.format( '200000abc') ); // 200000abc
+console.log ( formatterObject.format( '234abc') ); // 234abc
 ```
 
 Passing `true` as second argument makes the method to throw an exception: 
@@ -106,7 +106,7 @@ try {
   obj.format( '234abc', true );
 } catch ( e ) {
   console.log( e );
-  // Phone "200000abc" didn't match any of the patterns:
+  // Phone "234abc" didn't match any of the patterns:
   // '+1 (NNN) NNN-NNNN',
   // '+44 NN NNNN NNNN',
   // '+7 (NNN) NNN-NN-NN',
