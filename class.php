@@ -54,7 +54,6 @@ class PhoneFormatter
             $phone_formatted = static::applyPattern(
                 $phone_raw,
                 $pattern,
-                $throw_exception_on_failure,
                 $length_strict_check
             );
             if ($phone_formatted) {
