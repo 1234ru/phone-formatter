@@ -84,9 +84,9 @@ class PhoneFormatter
         $pos_at_phone = 0;
         $pos_at_pattern = 0;
         while (
-            ( ( $pattern_char = substr($pattern, $pos_at_pattern, 1) ) !== false )
+            ( $pattern_char = substr($pattern, $pos_at_pattern, 1) )
             &&
-            ( ( $phone_char = substr($phone_raw, $pos_at_phone, 1) ) !== false )
+            ( $phone_char = substr($phone_raw, $pos_at_phone, 1) )
         ) {
             if ($pattern_char === $phone_char) {
                 $pos_at_phone++;

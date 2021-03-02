@@ -74,10 +74,12 @@
         console.log( "=======");
 
         // Length check:
+        console.log( "Full, with length check: " + knownPhone + " -> "
+            + obj.format( knownPhone, undefined, true ) );
         const phonePart = knownPhone.substr(0, 7);
-        console.log( "Without length check: " + phonePart + " -> "
+        console.log( "Part, without length check: " + phonePart + " -> "
             + obj.format( phonePart ) );
-        console.log( "With length check: " + phonePart + " -> "
+        console.log( "Part, with length check: " + phonePart + " -> "
             + obj.format( phonePart, undefined, true ) );
     </script>
 </body>

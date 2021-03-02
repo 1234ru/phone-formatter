@@ -1,5 +1,5 @@
 /**
- * @version 1.1.1
+ * @version 1.2.1
  */
 
 var Freedom = Freedom || {};
@@ -232,10 +232,6 @@ Freedom.PhoneFormatter.prototype.applyPattern = function(
             return rawPhone;
         }
     }
-
-    return formattedPhone
-        ? formattedPhone
-        : ( throwExceptionWhenNoMatch ? rawPhone : formattedPhone );
 }
 
 /** @private */
