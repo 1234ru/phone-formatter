@@ -83,10 +83,11 @@ class PhoneFormatter
         $phone_formatted = '';
         $pos_at_phone = 0;
         $pos_at_pattern = 0;
+        // "0" == false in PHP, so explicitly checking string's length
         while (
-            ( $pattern_char = substr($pattern, $pos_at_pattern, 1) )
+            mb_strlen( $pattern_char = substr($pattern, $pos_at_pattern, 1) )
             &&
-            ( $phone_char = substr($phone_raw, $pos_at_phone, 1) )
+            mb_strlen( $phone_char = substr($phone_raw, $pos_at_phone, 1) )
         ) {
             if ($pattern_char === $phone_char) {
                 $pos_at_phone++;
