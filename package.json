@@ -1,0 +1,16 @@
+{
+  "name": "@freedom/phone-formatter",
+  "version": "0.0.1",
+  "description": "Phone numbers formatter",
+  "main": "lib/index",
+  "repository": "https://github.com/1234ru/phone-formatter.git",
+  "author": "1234ru",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "compile": "rm -rf lib && tsc -b"
+  },
+  "devDependencies": {
+    "typescript": "^4.2.3"
+  }
+}
