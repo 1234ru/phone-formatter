@@ -1,0 +1,29 @@
+{
+    "include": [
+        "./src/**/*"
+    ],
+    "compilerOptions": {
+        "target": "es5",
+        "module": "UMD",
+        "sourceMap": true,
+        "declaration": true,
+        "declarationMap": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "noImplicitReturns": true,
+        "allowUmdGlobalAccess": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": false,
+        "strict": true,
+        "pretty": true,
+        "lib": [
+            "esnext",
+            "dom"
+        ],
+        "outDir": "lib",
+        "rootDir": "src"
+    }
+}
