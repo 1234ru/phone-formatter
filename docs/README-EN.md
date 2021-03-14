@@ -22,7 +22,7 @@ The library uses just pure Javascript and is compatible with all modern browsers
 const numberPatterns = [
   '+1 (NNN) NNN-NN-NN',  // USA/Canada
   '+44 NN NNNN NNNN',    // UK
-  '+7 (NNN) NNN-NNNN',   // Russia
+  '+7 (NNN) NNN-NN-NN',   // Russia
   '+38 (0NN) NNN-NN-NN', // Ukraine
 ];
 ```
