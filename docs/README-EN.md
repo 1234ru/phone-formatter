@@ -1,6 +1,6 @@
 <img src="https://raw.githubusercontent.com/1234ru/phone-formatter/master/docs/live-en.gif" width="400" align="center">
 
-Automatic formatting of phone numbers on input into HTML form fields improve 
+Automatic formatting of phone numbers on input into HTML form fields improves 
 readability and drastically decreases amount of misprints,
 while not demanding users to enter anything but digits.
 
@@ -38,7 +38,7 @@ document.querySelectorAll( 'input[type=tel]' ).forEach( function( input ) {
 
 (`Freedom` is a web framework featuring this library, hence the namespace's name.)
 
-4. Detach the watcher: 
+4. Detach the watcher, if necessary: 
    
 ```javascript
 formatterObject.detachFromInput();
@@ -57,7 +57,7 @@ all templates will be analyzed, and the one matching starting digits of the phon
 if there is no input eventually, the field is set back to empty when focus is lost    
 <img src="https://raw.githubusercontent.com/1234ru/phone-formatter/master/docs/blank-input-en.gif" width="250" align="center">
 
-* if no template matches the given phone number it will not be formatted 
+* if no template matches the given phone number, it will not be formatted 
 
 * invalid characters (letters etc.) are removed anyway
 

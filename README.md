@@ -37,7 +37,7 @@ document.querySelectorAll( 'input[type=tel]' ).forEach( function( input ) {
 (`Freedom` - веб-фреймворк, в рамках которого ведется разработка, отсюда и название
 пространства имён.)
 
-4. Прекратить слежение: 
+4. Прекратить слежение, при необходимости: 
    
 ```javascript
 formatterObject.detachFromInput();
