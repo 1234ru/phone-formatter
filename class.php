@@ -4,8 +4,6 @@
 namespace Freedom;
 
 
-use Delivery\CDEK\Exception;
-
 class PhoneFormatter
 {
     /** @var string[] */
