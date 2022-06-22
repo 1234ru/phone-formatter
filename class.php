@@ -129,7 +129,10 @@ class PhoneFormatter
         return $valid;
     }
 
-    public static function keepDigitsOnly(string $phone) :string {
-        return preg_replace('/\D+/', '', $phone);
+    public static function keepDigitsOnly($phone)
+    {
+        return !is_null($phone)
+            ? preg_replace('/\D+/', '', $phone)
+            : null;
     }
 }
