@@ -39,12 +39,12 @@ class PhoneFormatter
 
     /** @throws \Exception */
     public function format(
-        string $phone_raw,
+        $phone_raw,
         bool $throw_exception_on_failure = false,
         bool $length_strict_check = false
     ) :string {
         $phone_raw = trim($phone_raw);
-        if (!$phone_raw) {
+        if ($phone_raw === '') {
             return '';
         }
         $phone_formatted = '';
